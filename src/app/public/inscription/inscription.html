@@ -1,0 +1,90 @@
+<div class="inscription-container" *ngIf="session">
+  <div class="inscription-header">
+    <h1>Inscription à la session</h1>
+    <p class="session-dates">
+      Du {{ session.dateDebut | date:'dd/MM/yyyy' }} au {{ session.dateFin | date:'dd/MM/yyyy' }}
+    </p>
+    <div class="places-info">
+      <span class="places-badge">{{ remainingPlaces }} places restantes</span>
+    </div>
+  </div>
+
+  <div class="inscription-form-section">
+    <form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nom">Nom *</label>
+          <input 
+            type="text" 
+            id="nom" 
+            formControlName="nom"
+            placeholder="Votre nom"
+          >
+          <div *ngIf="inscriptionForm.get('nom')?.invalid && inscriptionForm.get('nom')?.touched"
+               class="error-message">
+            Le nom est requis (min. 2 caractères)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prenom">Prénom *</label>
+          <input 
+            type="text" 
+            id="prenom" 
+            formControlName="prenom"
+            placeholder="Votre prénom"
+          >
+          <div *ngIf="inscriptionForm.get('prenom')?.invalid && inscriptionForm.get('prenom')?.touched"
+               class="error-message">
+            Le prénom est requis (min. 2 caractères)
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          placeholder="votre@email.com"
+        >
+        <div *ngIf="inscriptionForm.get('email')?.invalid && inscriptionForm.get('email')?.touched"
+             class="error-message">
+          Veuillez entrer un email valide
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="numeroCIN">Numéro CIN *</label>
+        <input 
+          type="text" 
+          id="numeroCIN" 
+          formControlName="numeroCIN"
+          placeholder="8 chiffres"
+          maxlength="8"
+        >
+        <div *ngIf="inscriptionForm.get('numeroCIN')?.invalid && inscriptionForm.get('numeroCIN')?.touched"
+             class="error-message">
+          Numéro CIN invalide (8 chiffres requis)
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="button" 
+          class="btn-cancel"
+          [routerLink]="['/formation', session.formationId]">
+          Annuler
+        </button>
+        <button 
+          type="submit" 
+          class="btn-submit"
+          [disabled]="inscriptionForm.invalid || isSubmitting || remainingPlaces === 0">
+          <span *ngIf="!isSubmitting">Confirmer l'inscription</span>
+          <span *ngIf="isSubmitting">Inscription en cours...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

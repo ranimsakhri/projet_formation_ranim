@@ -1,0 +1,68 @@
+<div class="sessions-container">
+  <div class="page-header">
+    <h1>Gestion des Sessions</h1>
+    <button class="btn-add" (click)="addSession()">
+      <i class="fas fa-plus"></i> Programmer une session
+    </button>
+  </div>
+
+  <div class="search-section">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        placeholder="Rechercher par formation..."
+      >
+      <i class="fas fa-search"></i>
+    </div>
+  </div>
+
+  <div class="table-section">
+    <table>
+      <thead>
+        <tr>
+          <th>Formation</th>
+          <th>Description</th>
+          <th>Date début</th>
+          <th>Date fin</th>
+          <th>Formateurs</th>
+          <th>Inscrits</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let session of filteredSessions">
+          <td>{{ getFormationTitre(session.formationId) }}</td>
+          <td class="description-cell">{{ session.description | slice:0:100 }}...</td>
+          <td>{{ session.dateDebut | date:'dd/MM/yyyy' }}</td>
+          <td>{{ session.dateFin | date:'dd/MM/yyyy' }}</td>
+          <td>{{ getFormateursNames(session.formateursIds) }}</td>
+          <td>{{ session.candidatsIds.length }}/{{ session.maxCandidats }}</td>
+          <td class="actions">
+            <button class="btn-edit" (click)="editSession(session)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-delete" (click)="deleteSession(session.id)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="filteredSessions.length === 0" class="no-data">
+      <p>Aucune session trouvée</p>
+    </div>
+  </div>
+
+  <app-session-form 
+    *ngIf="showForm"
+    [session]="currentSession"
+    [formations]="formations"
+    [formateurs]="formateurs"
+    [isEditMode]="isEditMode"
+    (submit)="onFormSubmit($event)"
+    (cancel)="onFormCancel()">
+  </app-session-form>
+</div>

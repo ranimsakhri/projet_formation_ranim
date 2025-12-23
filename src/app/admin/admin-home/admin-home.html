@@ -1,0 +1,80 @@
+<div class="admin-home-container">
+  <div class="admin-header">
+    <h1>Tableau de bord Administrateur</h1>
+    <p>Gestion des formations ISET Rades</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon candidats">
+        <i class="fas fa-users"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.totalCandidats }}</h3>
+        <p>Candidats</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon formateurs">
+        <i class="fas fa-chalkboard-teacher"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.totalFormateurs }}</h3>
+        <p>Formateurs</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon formations">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.totalFormations }}</h3>
+        <p>Formations</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon sessions">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.totalSessions }}</h3>
+        <p>Sessions</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="recent-sessions">
+    <h2>Sessions récentes</h2>
+    <div class="sessions-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Formation</th>
+            <th>Date début</th>
+            <th>Date fin</th>
+            <th>Formateurs</th>
+            <th>Inscrits</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let session of recentSessions">
+            <td>{{ session.formationTitre }}</td>
+            <td>{{ session.dateDebut | date:'dd/MM/yyyy' }}</td>
+            <td>{{ session.dateFin | date:'dd/MM/yyyy' }}</td>
+            <td>{{ session.formateursCount }} formateur(s)</td>
+            <td>{{ session.candidatsCount }}/{{ session.maxCandidats }}</td>
+            <td>
+              <button class="btn-action" [routerLink]="['/admin/sessions/edit', session.id]">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

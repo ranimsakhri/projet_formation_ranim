@@ -1,0 +1,29 @@
+<div class="home-container">
+  <section class="categories-section">
+    <h2>Catégories de Formations</h2>
+    
+    @if (categories.length > 0) {
+      <div class="categories-grid">
+        @for (category of categories; track category) {
+          <div class="category-card">
+            <h3>{{ category }}</h3>
+            
+
+            <a routerLink="/formations" [queryParams]="{categorie: category}">
+              Voir les formations
+            </a>
+            
+           
+            <a [routerLink]="'/formations'" [queryParams]="{categorie: category}">
+              Voir les formations
+            </a>
+            
+            <a [routerLink]="['/formations']" (click)="filterByCategory(category)">
+              Voir les formations
+            </a>
+          </div>
+        }
+      </div>
+    }
+  </section>
+</div>

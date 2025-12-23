@@ -1,0 +1,55 @@
+<div class="formations-container">
+  <div class="search-section">
+    <h1>Rechercher une Formation</h1>
+    
+    <div class="search-bar">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        placeholder="Rechercher par mot-clé..."
+        (keyup.enter)="onSearch()"
+      >
+      <button (click)="onSearch()">
+        <i class="fas fa-search"></i> Rechercher
+      </button>
+    </div>
+
+    <div class="category-filter" *ngIf="selectedCategory">
+      <span>Catégorie: {{ selectedCategory }}</span>
+      <button (click)="selectedCategory = ''; loadFormations()">
+        × Supprimer filtre
+      </button>
+    </div>
+  </div>
+
+  <div class="formations-list">
+    <div *ngFor="let formation of formations" class="formation-card">
+      <div class="formation-header">
+        <h3>{{ formation.titre }}</h3>
+        <span class="niveau-badge" [class]="formation.niveau">
+          {{ formation.niveau }}
+        </span>
+      </div>
+      
+      <p class="formation-description">{{ formation.description | slice:0:150 }}...</p>
+      
+      <div class="formation-details">
+        <span><i class="fas fa-clock"></i> {{ formation.chargeHoraire }}h</span>
+        <div class="tags">
+          <span *ngFor="let tag of formation.tags.slice(0,3)" class="tag">
+            {{ tag }}
+          </span>
+        </div>
+      </div>
+      
+      <a [routerLink]="['/formation', formation.id]" class="btn-details">
+        Voir détails
+      </a>
+    </div>
+
+    <div *ngIf="formations.length === 0" class="no-results">
+      <i class="fas fa-search"></i>
+      <p>Aucune formation trouvée</p>
+    </div>
+  </div>
+</div>

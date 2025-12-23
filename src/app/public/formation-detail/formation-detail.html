@@ -1,0 +1,83 @@
+<div class="formation-detail-container" *ngIf="formation">
+  <div class="formation-header">
+    <div class="formation-title-section">
+      <h1>{{ formation.titre }}</h1>
+      <div class="formation-meta">
+        <span class="niveau-badge" [class]="formation.niveau">
+          {{ formation.niveau }}
+        </span>
+        <span class="horaire">
+          <i class="fas fa-clock"></i> {{ formation.chargeHoraire }} heures
+        </span>
+      </div>
+    </div>
+
+    <div class="formation-actions">
+      <button (click)="viewProgram()" class="btn-program">
+        <i class="fas fa-file-pdf"></i> Voir le programme
+      </button>
+    </div>
+  </div>
+
+  <div class="formation-content">
+    <div class="formation-description">
+      <h2>Description</h2>
+      <p>{{ formation.description }}</p>
+    </div>
+
+    <div class="formation-tags">
+      <h3>Mots-clés</h3>
+      <div class="tags-list">
+        <span *ngFor="let tag of formation.tags" class="tag">
+          {{ tag }}
+        </span>
+      </div>
+    </div>
+
+    <div class="formation-categories">
+      <h3>Catégories</h3>
+      <div class="categories-list">
+        <span *ngFor="let category of formation.categories" class="category">
+          {{ category }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sessions-section">
+    <h2>Sessions à venir</h2>
+    
+    <div *ngIf="sessions.length === 0" class="no-sessions">
+      <p>Aucune session programmée pour le moment</p>
+    </div>
+
+    <div *ngFor="let session of sessions" class="session-card">
+      <div class="session-info">
+        <h3>Session du {{ session.dateDebut | date:'dd/MM/yyyy' }} au {{ session.dateFin | date:'dd/MM/yyyy' }}</h3>
+        <p>{{ session.description }}</p>
+        
+        <div class="session-details">
+          <div class="detail-item">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Formateur(s): {{ getFormateurNames(session.formateursIds) }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-users"></i>
+            <span>Places disponibles: {{ getRemainingPlaces(session) }}/{{ session.maxCandidats }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="session-actions">
+        <button 
+          [routerLink]="['/inscription', session.id]"
+          [disabled]="getRemainingPlaces(session) === 0"
+          class="btn-inscription"
+          [class.disabled]="getRemainingPlaces(session) === 0">
+          <i class="fas fa-user-plus"></i>
+          {{ getRemainingPlaces(session) === 0 ? 'Complet' : "S'inscrire" }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
